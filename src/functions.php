@@ -26,6 +26,7 @@ function tipCalculator($total, $percentage)
   ];
 }
 
+// To save each transaction in a csv file
 function saveTransaction($total, $tip)
 {
   $file = "../transactions.csv";
@@ -48,8 +49,7 @@ function saveTransaction($total, $tip)
 }
 
 
-
-
+//  To show totals of the transactions
 function getTotals()
 {
   $file = "../transactions.csv";
@@ -77,4 +77,18 @@ function getTotals()
     "totalBill" => "0.00",
     "totalTip" => "0.00"
   ];
+}
+
+// to show the number of transactions
+function getQuantityOfTransactions()
+{
+  $file = "../transactions.csv";
+
+  if (file_exists($file)) {
+
+    $rows = file($file);
+    return count($rows) - 1;
+  }
+
+  return 0;
 }
