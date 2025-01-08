@@ -57,15 +57,25 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             <p class="has-text-centered has-text-weight-bold has-text-info is-size-4"><?= $results["totalToPay"] ?><small> EUR</small></p>
           </div>
 
+          <!-- Show Error Messages -->
+
         <?php elseif ($results === "The amounts are not valid"): ?>
           <h2>Error</h2>
           <p><?= $results ?>. Please try again</p>
-
         <?php endif; ?>
+
+
         <!-- Show Totals -->
         <?php
         $totals = getTotals();
-        ?>
+        if ($totals): ?>
+          <div class="box has-background-light">
+            <h2 class="subtitle has-text-centered mb-4">Daily Totals</h2>
+            <p class="has-text-centered"><strong>Total Bills: </strong><?= $totals["totalBill"] ?> EUR</p>
+            <p class="has-text-centered"><strong>Total Tips: </strong><?= $totals["totalTip"] ?> EUR</p>
+          </div>
+        <?php endif; ?>
+
       </div>
     </div>
   </div>

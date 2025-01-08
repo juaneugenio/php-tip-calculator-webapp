@@ -26,11 +26,21 @@ function saveTransaction($total, $tip)
   $date = date("Y-m-d");
   $time = date("H:i:s");
   $totalTransaction = $total + $tip;
-  $headLine = "Date,Time, Total Bill,Tip, Total transaction\n";
   $line = "$date, $time, $total,$tip, $totalTransaction\n";
 
-  file_put_contents($file, $headLine . $line, FILE_APPEND | LOCK_EX);
+  // Verifica si el archivo no existe
+  if (!file_exists($file)) {
+    // Si el archivo no existe, creamos el archivo con la cabecera
+    $headLine = "Date,Time, Total Bill,Tip, Total transaction\n";
+    file_put_contents($file, $headLine, FILE_APPEND | LOCK_EX);
+  }
+
+  // Añade la transacción al archivo CSV
+  file_put_contents($file, $line, FILE_APPEND | LOCK_EX);
 }
+
+
+
 
 function getTotals()
 {
@@ -41,9 +51,12 @@ function getTotals()
   if (file_exists($file)) {
     $rows = array_map(fn($line) => str_getcsv($line, ",", '"', ""), file($file));
 
+    // Excluding the header generation each time to register only the totals
+    array_shift($rows);
+
     foreach ($rows as $row) {
-      $totalBill += floatval($row[1] ?? 0);
-      $totalTip += floatval($row[2] ?? 0);
+      $totalBill += floatval($row[2] ?? 0);  // Total Bill (columna 3)
+      $totalTip += floatval($row[3] ?? 0);   // Tip (columna 4)
     }
 
     return [
@@ -51,4 +64,9 @@ function getTotals()
       "totalTip" => number_format($totalTip, 2)
     ];
   }
+
+  return [
+    "totalBill" => "0.00",
+    "totalTip" => "0.00"
+  ];
 }
