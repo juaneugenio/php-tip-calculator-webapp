@@ -62,6 +62,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
           <p><?= $results ?>. Please try again</p>
 
         <?php endif; ?>
+        <!-- Show Totals -->
+        <?php
+        $totals = getTotals();
+        ?>
       </div>
     </div>
   </div>
