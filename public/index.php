@@ -13,7 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   $tipPercentage = floatval($tipPercentage);
 
   //Validation 
-  if ($total <= 0 || $tipPercentage <= 0) {
+  if ($total <= 0) {
     $results = "The amounts are not valid. Please try again";
   } else {
     $results = tipCalculator($total, $tipPercentage);
@@ -71,8 +71,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         if ($totals): ?>
           <div class="box has-background-light">
             <h2 class="subtitle has-text-centered mb-4">Daily Totals</h2>
-            <p class="has-text-centered"><strong>Total Bills: </strong><?= $totals["totalBill"] ?> EUR</p>
-            <p class="has-text-centered"><strong>Total Tips: </strong><?= $totals["totalTip"] ?> EUR</p>
+            <p class="has-text-left">Total Bills: <strong><?= $totals["totalBill"] ?> </strong><small> EUR</small></p>
+            <p class="has-text-left">Total Tips: <strong><?= $totals["totalTip"] ?> </strong><small> EUR</small></p>
           </div>
         <?php endif; ?>
 

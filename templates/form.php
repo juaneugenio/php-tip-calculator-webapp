@@ -17,7 +17,7 @@
           <label for="tip" class="label">Tip %</label>
 
           <div class="control">
-            <input type="number" min="2" step="0.01" name="tip" id="tip" class="input" required>
+            <input type="number" step="0.01" name="tip" id="tip" class="input">
           </div>
         </div>
 
