@@ -1,4 +1,5 @@
 <?php
+
 function tipCalculator($total, $percentage)
 {
   if ($total <= 0 || $percentage <= 0) {

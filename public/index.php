@@ -4,10 +4,20 @@ require "../src/functions.php";
 $results = null;
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-  $total = floatval($_POST["total"] ?? 0);
-  $percentage = floatval($_POST["tip"] ?? 0);
+  // Sanitize input
+  $total = filter_var($_POST["total"], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+  $tipPercentage = filter_var($_POST["tip"], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
 
-  $results = tipCalculator($total, $percentage);
+  // Float conversion
+  $total = floatval($total);
+  $tipPercentage = floatval($tipPercentage);
+
+  //Validation 
+  if ($total <= 0 || $tipPercentage <= 0) {
+    $results = "The amounts are not valid. Please try again";
+  } else {
+    $results = tipCalculator($total, $tipPercentage);
+  }
 }
 
 ?>
@@ -41,9 +51,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
           <div class="box has-background-light">
 
             <h2 class="subtitle has-text-centered mb-4 has-text-weigth-bold is-size-4">Total Calculation</h2>
-            <p class="has-text-centered"><strong>Bill: </strong><?= $results["total"] ?><small>EUR</small></p>
-            <p class="has-text-centered"><strong>Tip: </strong><?= $results["tip"] ?><small>EUR</small></p>
-            <p class="has-text-centered has-text-info has-text-weight-bold mt-4">Total to pay: <?= $results["totalToPay"] ?><small>EUR</small></p>
+            <p class="has-text-left"><strong>Total Bill: </strong><?= $results["total"] ?><small> EUR</small></p>
+            <p class="has-text-left"><strong>Calculated Tip: </strong><?= $results["tip"] ?><small> EUR</small></p>
+            <p class="has-text-centered has-text-info has-text-weight-bold mt-4">Total to pay:</p>
+            <p class="has-text-centered has-text-weight-bold has-text-info is-size-4"><?= $results["totalToPay"] ?><small> EUR</small></p>
           </div>
 
         <?php elseif ($results === "The amounts are not valid"): ?>
